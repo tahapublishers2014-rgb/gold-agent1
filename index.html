@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0e1217">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>ایجنت طلا</title>
+<style>
+:root{
+  --bg:#f1f3f5; --surface:#fff; --fg:#14181f; --muted:#5d6673; --line:#dde1e6;
+  --gold:#8f6c0e; --gold-soft:#f3e8c6; --good:#1f7a52; --bad:#b83a3a; --warn:#9a6200; --info:#2a6f97;
+  --font:system-ui,"Segoe UI",Tahoma,"Noto Sans Arabic","Noto Naskh Arabic",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0e1217; --surface:#161c24; --fg:#e8ebef; --muted:#97a1ae; --line:#27303b;
+  --gold:#e0b84f; --gold-soft:#2c2614; --good:#4cc38a; --bad:#f06b66; --warn:#e8b04a; --info:#6fb3e0; color-scheme:dark}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.85 var(--font);
+  padding-block:calc(14px + env(safe-area-inset-top,0px)) calc(40px + env(safe-area-inset-bottom,0px));
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#app{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+h1{margin:0;font-size:26px;line-height:1.3;color:var(--gold)}
+h2{font-size:16px;margin:0 0 10px}
+p{margin:0}
+.sub,.note{color:var(--muted);font-size:13.5px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;min-width:0}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}
+.pill{display:inline-block;border-radius:999px;padding:1px 10px;font-size:12.5px;border:1px solid var(--line);color:var(--muted)}
+.pill.ok{color:var(--good);border-color:var(--good)} .pill.stale{color:var(--warn);border-color:var(--warn)} .pill.demo{color:var(--bad);border-color:var(--bad)}
+button{font:inherit;color:inherit;background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:6px 14px;min-height:40px;cursor:pointer}
+button[aria-pressed=true]{background:var(--gold-soft);border-color:var(--gold);font-weight:700}
+button.primary{background:var(--gold);border-color:var(--gold);color:var(--bg);font-weight:700}
+button:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+a{color:var(--info)}
+.banner{border-color:var(--gold);background:var(--gold-soft)}
+.errbox{border-color:var(--warn);color:var(--warn);font-size:13.5px}
+.bias{font-size:28px;font-weight:800;line-height:1.35}
+.pos{color:var(--good)} .neg{color:var(--bad)} .neu{color:var(--warn)}
+.hero-top{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:baseline;justify-content:space-between}
+.meter{direction:ltr;position:relative;height:12px;border-radius:6px;margin:14px 0 4px;display:flex;overflow:hidden;border:1px solid var(--line)}
+.meter i{flex:1}.meter .a{background:color-mix(in srgb,var(--bad) 35%,var(--surface))}.meter .b{background:color-mix(in srgb,var(--warn) 25%,var(--surface))}.meter .c{background:color-mix(in srgb,var(--good) 35%,var(--surface))}
+.meter b{position:absolute;top:-3px;bottom:-3px;width:4px;margin-left:-2px;background:var(--fg);border-radius:2px}
+.ends{direction:ltr;display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:4px 14px;margin-top:12px;font-size:14px}
+.facts div{display:flex;justify-content:space-between;gap:8px;border-bottom:1px dashed var(--line);padding-block:3px;min-width:0}
+.facts span:first-child{color:var(--muted)} .facts b{direction:ltr;font-variant-numeric:tabular-nums}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.votes{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:6px}
+.vote{display:flex;justify-content:space-between;align-items:center;gap:6px;border:1px solid var(--line);border-radius:8px;padding:4px 10px;font-size:13.5px;min-width:0}
+.vote em{font-style:normal;font-weight:800}
+.alerts{display:flex;flex-direction:column;gap:6px}
+.alert{display:flex;gap:8px;align-items:flex-start;border-radius:8px;padding:7px 10px;border-inline-start:4px solid var(--c);background:color-mix(in srgb,var(--c) 9%,var(--surface));font-size:14px;min-width:0}
+.alert .lv{flex:none;font-size:12px;font-weight:700;color:var(--c);min-width:42px}
+.alert .tx{min-width:0;overflow-wrap:anywhere}
+.tg{display:inline-block;font-size:11.5px;color:var(--muted);border:1px solid var(--line);border-radius:10px;padding:0 7px;margin-inline-end:6px}
+.l-good{--c:var(--good)}.l-bad{--c:var(--bad)}.l-warn{--c:var(--warn)}.l-info{--c:var(--info)}
+.plan p{padding-block:3px;overflow-wrap:anywhere}
+.plan .first{font-weight:700}
+.chart{direction:ltr;overflow:hidden}
+.chart svg{display:block;width:100%}
+.chart text{fill:var(--muted);font:11px var(--font)}
+.chart .grid{stroke:var(--line)} .chart .up{stroke:var(--good);fill:var(--good)} .chart .dn{stroke:var(--bad);fill:var(--bad)}
+.chart .m50{stroke:var(--gold);fill:none;stroke-width:1.4}.chart .m200{stroke:var(--info);fill:none;stroke-width:1.4}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12.5px;color:var(--muted);margin-top:6px}
+.news{display:flex;gap:8px;border-bottom:1px dashed var(--line);padding-block:6px;font-size:14px;min-width:0}
+.news .ar{flex:none;font-weight:800;width:16px;text-align:center}
+.news .bd{min-width:0;overflow-wrap:anywhere}.news .mt{display:block;color:var(--muted);font-size:12.5px}
+.foot{font-size:12.5px;color:var(--muted);text-align:center}
+</style>
+</head>
+<body>
+<div id="app">
+  <header class="top">
+    <div><h1>ایجنت طلا</h1><p class="sub">طلای جهانی XAU/USD · ۱۶ سبک · هشدار خوب و بد · حدس خبری</p></div>
+    <div style="text-align:end"><span id="pill" class="pill">در حال بارگذاری...</span><br><button id="reload" style="margin-top:6px">تازه‌سازی</button></div>
+  </header>
+  <div id="msg"></div>
+  <main id="main" style="display:flex;flex-direction:column;gap:14px"></main>
+  <p class="foot">این برنامه احتمال و سناریو نشان می‌دهد، نه پیش‌بینی قطعی و نه مشاوره‌ی مالی. حد ضرر و مدیریت سرمایه با خودت است.</p>
+</div>
+<script>
+(function(){
+'use strict';
+var $=function(i){return document.getElementById(i)};
+function el(t,p){var e=document.createElement(t);p=p||{};for(var k in p){if(k==='class')e.className=p[k];else if(k==='text')e.textContent=p[k];else if(k.slice(0,2)==='on')e[k]=p[k];else e.setAttribute(k,p[k]);}
+  for(var i=2;i<arguments.length;i++){var c=arguments[i];if(c==null)continue;if(Array.isArray(c))c.forEach(function(x){if(x!=null)e.append(x.nodeType?x:document.createTextNode(x))});else e.append(c.nodeType?c:document.createTextNode(c));}return e;}
+var fa=new Intl.NumberFormat('en-US',{maximumFractionDigits:1,minimumFractionDigits:1});
+var fmt=function(x,d){return x==null?'—':Number(x).toLocaleString('en-US',{minimumFractionDigits:d==null?1:d,maximumFractionDigits:d==null?1:d})};
+var LV={good:'خوب',bad:'بد',warn:'احتیاط',info:'نکته'};
+var state={data:null,view:0,filter:'all'};
+function label(s){return s>=40?['صعودی قوی','pos']:s>=15?['متمایل به صعود','pos']:s>-15?['خنثی / بدون جهت مشخص','neu']:s>-40?['متمایل به نزول','neg']:['نزولی قوی','neg'];}
+function arrow(v){return v>0?['▲','pos','صعودی']:v<0?['▼','neg','نزولی']:['■','neu','خنثی'];}
+function sg(x){return (x>0?'+':'')+x;}
+function ageText(h){return h<1?'کمتر از یک ساعت پیش':h<48?Math.round(h)+' ساعت پیش':Math.round(h/24)+' روز پیش';}
+
+function load(){
+  $('pill').textContent='در حال بارگذاری...';$('pill').className='pill';
+  return fetch('data.json?t='+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
+   .then(function(d){state.data=d;render();})
+   .catch(function(e){ $('pill').textContent='بدون داده';$('pill').className='pill stale';
+      $('msg').replaceChildren(el('div',{class:'card errbox',text:'داده‌ای بارگذاری نشد. اگر تازه نصب کرده‌ای، اولین به‌روزرسانی خودکار تا چند دقیقه‌ی دیگر انجام می‌شود. ('+e.message+')'}));});
+}
+
+function render(){
+  var d=state.data, main=$('main'), msg=$('msg'); main.replaceChildren(); msg.replaceChildren();
+  var ageMin=(Date.now()-new Date(d.updated).getTime())/60000;
+  var t=new Date(d.updated).toLocaleString('fa-IR',{timeZone:'Asia/Tehran',hour:'2-digit',minute:'2-digit',month:'short',day:'numeric'});
+  var pill=$('pill');
+  if(d.demo){pill.textContent='نمونه (ساختگی)';pill.className='pill demo';}
+  else if(ageMin>120){pill.textContent='قدیمی · '+t;pill.className='pill stale';}
+  else{pill.textContent='به‌روز · '+t;pill.className='pill ok';}
+  if(d.demo)msg.append(el('div',{class:'card banner',text:'این داده‌ی ساختگی است و فقط برای نمایش کار برنامه به‌کار رفته. به‌روزرسانی واقعی خودکار جایگزین آن می‌شود.'}));
+  if(d.error)msg.append(el('div',{class:'card errbox',text:'آخرین به‌روزرسانی خودکار ناموفق بود و داده‌ی قبلی نمایش داده می‌شود. (احتمالاً محدودیت یاهو یا گوگل؛ بعداً خودش دوباره تلاش می‌کند.)'}));
+  if(!d.demo&&ageMin>120)msg.append(el('div',{class:'card errbox',text:'داده بیش از ۲ ساعت قدمت دارد. تحلیل قیمت و اخبار ممکن است کهنه باشد.'}));
+
+  var lb=label(d.overall), r=d.reps[state.view]||d.reps[0];
+  var hero=el('section',{class:'card','aria-live':'polite'});
+  hero.append(el('h2',{text:'برداشت کلی'}),
+    el('div',{class:'hero-top'},el('span',{class:'bias '+lb[1],text:lb[0]}),el('span',{class:'sub',text:'امتیاز '+sg(d.overall)+' از ۱۰۰'})));
+  var m=el('div',{class:'meter',role:'img','aria-label':'امتیاز '+d.overall},el('i',{class:'a'}),el('i',{class:'b'}),el('i',{class:'c'}));
+  var mk=el('b');mk.style.left=((d.overall+100)/2)+'%';m.append(mk);
+  hero.append(m,el('div',{class:'ends'},el('span',{text:'نزولی'}),el('span',{text:'صعودی'})));
+  var f=el('div',{class:'facts'});
+  function row(k,v){f.append(el('div',null,el('span',{text:k}),el('b',{text:v})));}
+  row('تکنیکال',sg(d.tech));row('اخبار',d.news?sg(d.news.bias):'—');
+  var dr=d.reps.filter(function(x){return x.tf==='1d'})[0]||d.reps[0];
+  row('قیمت (روزانه)',fmt(dr.price,2));
+  if(dr.sup)row('حمایت نزدیک',fmt(dr.sup));if(dr.res)row('مقاومت نزدیک',fmt(dr.res));
+  row('نوسان معمول (ATR)',fmt(dr.atr));
+  hero.append(f);
+  if(dr.sup&&dr.res)hero.append(el('p',{class:'note',style:'margin-top:10px',text:'سناریوی صعودی با عبور پایدار از '+fmt(dr.res)+' تقویت می‌شود؛ سناریوی نزولی با شکست '+fmt(dr.sup)+'.'}));
+  hero.append(el('p',{class:'note',style:'margin-top:4px',text:'ترکیب امتیاز: ۷۵٪ تکنیکال و ۲۵٪ اخبار.'}));
+  main.append(hero);
+
+  if(d.pro){
+    var pl=el('section',{class:'card plan'});pl.append(el('h2',{text:'برنامه‌ی معامله و مدیریت ریسک'}));
+    d.pro.lines.forEach(function(ln,i){pl.append(el('p',{class:i===0?'first':'',text:ln}));});
+    main.append(pl);
+  }
+
+  var vc=el('section',{class:'card'});vc.append(el('h2',{text:'رأی سبک‌ها'}));
+  var tabs=el('div',{class:'tabs'});
+  d.reps.forEach(function(x,i){tabs.append(el('button',{'aria-pressed':String(i===state.view),onclick:function(){state.view=i;render();}},x.label));});
+  vc.append(tabs);
+  var vg=el('div',{class:'votes'}),nb=0,ns=0;
+  r.votes.forEach(function(v){var a=arrow(v.v);if(v.v>0)nb++;else if(v.v<0)ns++;vg.append(el('div',{class:'vote'},el('span',{text:v.name}),el('em',{class:a[1],'aria-label':a[2],text:a[0]})));});
+  vc.append(vg,el('p',{class:'note',style:'margin-top:10px',text:nb+' صعودی · '+ns+' نزولی · '+(r.votes.length-nb-ns)+' خنثی (از '+r.votes.length+' سبک دارای داده‌ی کافی) · امتیاز این بازه '+sg(r.score)}));
+  main.append(vc);
+
+  var all=[];
+  d.extra.forEach(function(a){all.push({lvl:a.lvl,tag:'کلی',text:a.text});});
+  r.alerts.forEach(function(a){var mm=a.text.match(/^\[(.+?)\]\s*(.*)$/);all.push(mm?{lvl:a.lvl,tag:mm[1],text:mm[2]}:{lvl:a.lvl,tag:'کلاسیک',text:a.text});});
+  var ord={bad:0,good:1,warn:2,info:3};all.sort(function(a,b){return ord[a.lvl]-ord[b.lvl];});
+  var cnt={all:all.length,good:0,bad:0,warn:0,info:0};all.forEach(function(a){cnt[a.lvl]++;});
+  var ac=el('section',{class:'card'});ac.append(el('h2',{text:'هشدارها'}));
+  var ft=el('div',{class:'tabs'});
+  ['all','bad','good','warn','info'].forEach(function(k){ft.append(el('button',{'aria-pressed':String(state.filter===k),onclick:function(){state.filter=k;render();}},(k==='all'?'همه':LV[k])+' ('+cnt[k]+')'));});
+  var box=el('div',{class:'alerts'});
+  all.filter(function(a){return state.filter==='all'||a.lvl===state.filter;}).forEach(function(a){
+    box.append(el('div',{class:'alert l-'+a.lvl},el('span',{class:'lv',text:LV[a.lvl]}),el('span',{class:'tx'},el('span',{class:'tg',text:a.tag}),a.text)));});
+  if(!box.children.length)box.append(el('p',{class:'note',text:'موردی در این دسته نیست.'}));
+  ac.append(ft,box);main.append(ac);
+
+  if(d.candles&&d.candles.length){
+    var cc=el('section',{class:'card'});cc.append(el('h2',{text:'نمودار روزانه'}));
+    var host=el('div',{class:'chart'});cc.append(host,el('div',{class:'legend'},el('span',{style:'color:var(--gold)',text:'— میانگین ۵۰'}),el('span',{style:'color:var(--info)',text:'— میانگین ۲۰۰'}),el('span',{text:'خط‌چین سبز: حمایت · قرمز: مقاومت'})));
+    main.append(cc);requestAnimationFrame(function(){chart(host,d.candles,dr);});
+  }
+
+  if(d.news){
+    var n=d.news,nl=label(n.bias),nc=el('section',{class:'card'});nc.append(el('h2',{text:'اخبار و حدس خبری'}));
+    nc.append(el('p',null,'جهت‌گیری خبری: ',el('b',{class:nl[1],text:nl[0]}),' (امتیاز '+sg(n.bias)+') · اطمینان: '+n.conf+' · '+n.n+' خبر، '+n.n_imp+' خبر اثرگذار'));
+    if(n.note)nc.append(el('p',{class:'note',text:n.note}));
+    var list=el('div');
+    n.top.forEach(function(x){var a=arrow(x.score);
+      var tt=x.link?el('a',{href:x.link,target:'_blank',rel:'noopener',text:x.title}):document.createTextNode(x.title);
+      list.append(el('div',{class:'news'},el('span',{class:'ar '+a[1],text:a[0]}),el('div',{class:'bd'},tt,el('span',{class:'mt',text:x.source+' · '+ageText(x.age_h)+' · '+(x.why||'')}))));});
+    if(!n.top.length)list.append(el('p',{class:'note',text:'خبر اثرگذار روشنی پیدا نشد.'}));
+    nc.append(list,el('p',{class:'note',text:'حدس فقط از تیتر خبرها ساخته شده و واکنش واقعی بازار ممکن است برعکس باشد.'}));
+    main.append(nc);
+  }
+}
+
+function chart(host,cd,r){
+  host.replaceChildren();
+  var W=Math.max(280,host.clientWidth||340),H=280,pR=52,pB=22,pT=8,cw=W-pR,N=cd.length;
+  var vals=[];cd.forEach(function(c){vals.push(c.h,c.l);});if(r.sup)vals.push(r.sup);if(r.res)vals.push(r.res);
+  var lo=Math.min.apply(null,vals),hi=Math.max.apply(null,vals),pad=(hi-lo)*.05;lo-=pad;hi+=pad;
+  var y=function(p){return pT+(hi-p)/(hi-lo)*(H-pT-pB)},x=function(i){return (i+.5)/N*cw};
+  var NS='http://www.w3.org/2000/svg',S=function(t,a){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);return e;};
+  var svg=S('svg',{viewBox:'0 0 '+W+' '+H,role:'img','aria-label':'نمودار شمعی روزانه‌ی طلا'});
+  for(var k=0;k<=4;k++){var p=lo+(hi-lo)*k/4,yy=y(p);svg.append(S('line',{x1:0,x2:cw,y1:yy,y2:yy,'class':'grid'}));var tx=S('text',{x:cw+4,y:yy+4});tx.textContent=Math.round(p).toLocaleString('en-US');svg.append(tx);}
+  var bw=Math.max(1.5,cw/N*.62);
+  cd.forEach(function(c,i){var cl=c.c>=c.o?'up':'dn';
+    svg.append(S('line',{x1:x(i),x2:x(i),y1:y(c.h),y2:y(c.l),'class':cl,'stroke-width':1}));
+    svg.append(S('rect',{x:x(i)-bw/2,y:y(Math.max(c.o,c.c)),width:bw,height:Math.max(1,Math.abs(y(c.o)-y(c.c))),'class':cl}));});
+  function line(key,cls){var d='';cd.forEach(function(c,i){if(c[key]==null)return;d+=(d?'L':'M')+x(i).toFixed(1)+' '+y(c[key]).toFixed(1);});if(d)svg.append(S('path',{d:d,'class':cls}));}
+  line('s50','m50');line('s200','m200');
+  function lv(p,col){if(!p)return;svg.append(S('line',{x1:0,x2:cw,y1:y(p),y2:y(p),stroke:col,'stroke-width':1,'stroke-dasharray':'4 4'}));}
+  lv(r.sup,'var(--good)');lv(r.res,'var(--bad)');
+  [0,.5,1].forEach(function(f){var i=Math.round((N-1)*f),tx=S('text',{x:Math.min(cw-30,Math.max(2,x(i)-28)),y:H-6});tx.textContent=cd[i].t;svg.append(tx);});
+  host.append(svg);
+}
+
+$('reload').onclick=load;
+document.addEventListener('visibilitychange',function(){if(!document.hidden&&state.data&&(Date.now()-new Date(state.data.updated).getTime())>10*60000)load();});
+var rz;window.addEventListener('resize',function(){clearTimeout(rz);rz=setTimeout(function(){if(state.data)render();},200);});
+if('serviceWorker' in navigator)window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});
+load();
+})();
+</script>
+</body>
+</html>
